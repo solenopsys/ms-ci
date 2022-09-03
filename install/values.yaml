@@ -1,0 +1,10 @@
+replicasCount: 1
+fullName: "alexstorm-hsm-ci"
+selectorLabel: "alexstorm-hsm-ci"
+hsServiceName: "alexstorm-hsm-ci"
+
+containers:
+  front-adapter:
+    name: api-adapter
+    image: registry.alexstorm.solenopsys.org/alexstorm-hsm-ci
+    zmqPort: 9999

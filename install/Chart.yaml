@@ -1,0 +1,8 @@
+apiVersion: v2
+name: alexstorm-hsm-ci
+version: 0.1.0
+description: Continuous integration
+icon: "http://alexstorm.solenopsys.org/apps/assets/ci.svg"
+
+
+

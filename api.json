@@ -1,0 +1,12 @@
+{
+  "ver": "1.0.0",
+  "name": "alexstorm-hsm-ci-api",
+  "proto": "api.proto",
+  "methods": {
+    "createJob": {
+      "fuc": 1,
+      "request": "CreateJobRequest",
+      "response": "CreateJobResponse"
+    }
+  }
+}

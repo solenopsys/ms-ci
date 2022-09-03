@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+
+option go_package = "./";
+
+message CreateJobRequest {
+  string jobId = 1;
+}
+
+message CreateJobResponse {
+  string kubernetesJobName = 1;
+}
