@@ -1,0 +1,1 @@
+drop table alexstorm_shockwaves.execution

@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: buildkit
+spec:
+  template:
+    metadata:
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/buildkit: unconfined
+    spec:
+      restartPolicy: Never
+      initContainers:
+        - name: prepare
+          image: alpine/git
+          command:
+            - git
+            - clone
+            - http://git.alexstorm.solenopsys.org/alexstorm-hsm-ci
+            - /workspace/
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+      containers:
+        - name: buildkit
+          image: moby/buildkit:master-rootless
+          env:
+            - name: BUILDKITD_FLAGS
+              value: --oci-worker-no-process-sandbox
+          command:
+            - buildctl-daemonless.sh
+          args:
+            - build
+            - --frontend
+            - dockerfile.v0
+            - --local
+            - context=/workspace
+            - --local
+            - dockerfile=./cic/jobs/go_build_x.Dockerfile
+            - --opt platform
+            - linux/amd64,linux/arm64
+            - --output type=image,name=registry.alexstorm.solenopsys.org/alexstorm-hsm-ci,push=true`
+          volumeMounts:
+            - name: workspace
+              readOnly: true
+              mountPath: /workspace
+      volumes:
+        - name: workspace
+          emptyDir: {}
