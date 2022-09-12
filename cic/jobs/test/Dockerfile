@@ -4,8 +4,11 @@ WORKDIR /stuff
 RUN git clone https://git.alexstorm.solenopsys.org/alexstorm-hsm-ci
 WORKDIR /stuff/alexstorm-hsm-ci
 
-#FROM moby/buildkit:master-rootless AS BUILD_IMAGE
-#RUN mkdir /stuff
-#WORKDIR /stuff
-#COPY --from=CLONE_SOURCE /stuff/alexstorm-hsm-ci /stuff
-#RUN docker buildx build  --platform linux/amd64,linux/arm64 -t registry.alexstorm.solenopsys.org/alexstorm-hsm-ci:latest --push .
+FROM --platform=$BUILDPLATFORM  golang:1.19-buster
+COPY --from=CLONE_SOURCE /stuff/alexstorm-hsm-ci /app
+ARG TARGETARCH
+WORKDIR /app
+RUN go mod download
+RUN  GOOS=linux GOARCH=$TARGETARCH go build  -o /go-binary /app/cmd/app/main.go
+
+CMD [ "/go-binary" ]
