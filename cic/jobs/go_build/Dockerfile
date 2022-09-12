@@ -4,7 +4,7 @@ WORKDIR /stuff
 RUN git clone https://$gitRegistry/$gitRepoName
 WORKDIR /stuff/$gitRepoName
 
-FROM alexstorm-buildx-job AS BUILD_IMAGE
+FROM registry.alexstorm.solenopsys.org/alexstorm-buildx-job AS BUILD_IMAGE
 RUN mkdir /stuff
 WORKDIR /stuff
 COPY --from=CLONE_SOURCE /stuff/$gitRepoName /stuff
