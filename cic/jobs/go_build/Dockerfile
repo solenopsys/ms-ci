@@ -4,7 +4,7 @@ WORKDIR /stuff
 RUN git clone https://$gitRegistry/$gitRepoName
 WORKDIR /stuff/$gitRepoName
 
-FROM docker-buildx AS BUILD_IMAGE
+FROM alexstorm-buildx-job AS BUILD_IMAGE
 RUN mkdir /stuff
 WORKDIR /stuff
 COPY --from=CLONE_SOURCE /stuff/$gitRepoName /stuff
