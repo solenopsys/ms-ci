@@ -4,7 +4,7 @@ WORKDIR /stuff
 RUN git clone https://git.alexstorm.solenopsys.org/alexstorm-hsm-ci
 WORKDIR /stuff/alexstorm-hsm-ci
 
-FROM buildkit AS BUILD_IMAGE
+FROM moby/buildkit:master-rootless AS BUILD_IMAGE
 RUN mkdir /stuff
 WORKDIR /stuff
 COPY --from=CLONE_SOURCE /stuff/alexstorm-hsm-ci /stuff
