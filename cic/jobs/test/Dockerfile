@@ -1,3 +1,5 @@
+ARG REPO_NAME
+
 FROM alpine/git AS CLONE_SOURCE
 RUN mkdir /stuff
 WORKDIR /stuff
