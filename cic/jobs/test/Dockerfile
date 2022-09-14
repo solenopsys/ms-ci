@@ -9,8 +9,9 @@ FROM --platform=$BUILDPLATFORM  golang:1.19-buster
 ARG TARGETARCH
 ARG GO_MAIN_FILE
 RUN echo "MAIN FILE $GO_MAIN_FILE"
+RUN echo "ARCH $TARGETARCH"
 COPY --from=CLONE_SOURCE /sources /sources
 WORKDIR /sources
 RUN go mod download
-RUN GOOS=linux GOARCH=$TARGETARCH go build  -o /go-start /app/cmd/app/main.go
+RUN GOOS=linux GOARCH=$TARGETARCH go build -o /go-start /app/cmd/app/main.go
 CMD [ "/go-start" ]
