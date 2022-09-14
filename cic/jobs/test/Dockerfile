@@ -1,6 +1,8 @@
-ARG REPO_NAME=solenopsys-hsm-ci
+
 
 FROM alpine/git AS CLONE_SOURCE
+ARG REPO_NAME
+RUN echo "REPO_NAME: $REPO_NAME"
 RUN mkdir /stuff
 WORKDIR /stuff
 RUN git clone https://admin:root@git.alexstorm.solenopsys.org/$REPO_NAME

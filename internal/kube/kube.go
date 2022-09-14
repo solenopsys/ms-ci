@@ -69,10 +69,15 @@ func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobNam
 	}
 	args := []string{
 		"build",
+		"--no-cache",
 		"--frontend",
 		"dockerfile.v0",
 		"--opt",
 		"platform=" + arch,
+		//"--build-arg",
+		//"REPO_NAME=" + gitRepoName,
+		//"--opt",
+		"build-arg:REPO_NAME=" + gitRepoName,
 		"--local",
 		"context=/workspace",
 		"--local",
@@ -101,10 +106,7 @@ func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobNam
 							Image:        "alpine/git",
 							Command:      []string{"git", "clone", "http://admin:root@" + gitHost + "/" + gitRepoName, "/workspace/" + gitRepoName},
 							VolumeMounts: volumeMount,
-							Args: []string{
-								"--build-arg",
-								"gitRepoName",
-							},
+							Args:         []string{},
 						},
 					},
 					Containers: []v1.Container{
@@ -114,7 +116,7 @@ func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobNam
 							Command: []string{"buildctl-daemonless.sh"},
 							Env: []v1.EnvVar{{
 								Name:  "BUILDKITD_FLAGS",
-								Value: "REPO_NAME=" + gitRepoName,
+								Value: "--oci-worker-no-process-sandbox",
 							}},
 							Args:         args,
 							VolumeMounts: volumeMount,
