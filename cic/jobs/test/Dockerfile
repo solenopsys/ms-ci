@@ -1,4 +1,4 @@
-ARG REPO_NAME
+ARG REPO_NAME=solenopsys-hsm-ci
 
 FROM alpine/git AS CLONE_SOURCE
 RUN mkdir /stuff
