@@ -85,7 +85,7 @@ func main() {
 	name := "solenopsys-hsm-ci"
 	kube.CreateJobFunc(clientSet,
 		name,
-		"ci-build-job7",
+		"ci-build-job8",
 		"git.alexstorm.solenopsys.org",
 		"linux/amd64,linux/arm64",
 		"/workspace/"+name+"/cic/jobs/test",
