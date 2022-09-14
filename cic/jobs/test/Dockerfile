@@ -1,5 +1,3 @@
-
-
 FROM alpine/git AS CLONE_SOURCE
 ARG REPO_NAME
 ARG USER_INFO
@@ -7,12 +5,11 @@ ARG GIT_HOST
 RUN mkdir /sources
 RUN git clone https://$USER_INFO$GIT_HOST/$REPO_NAME /sources
 
-
 FROM --platform=$BUILDPLATFORM  golang:1.19-buster
-COPY --from=CLONE_SOURCE /stuff/solenopsys-hsm-ci /app
+COPY --from=CLONE_SOURCE /sources /sources
 ARG TARGETARCH
-WORKDIR /app
+ARG GO_FILE
+WORKDIR /sources
 RUN go mod download
-RUN  GOOS=linux GOARCH=$TARGETARCH go build  -o /go-binary /app/cmd/app/main.go
-
-CMD [ "/go-binary" ]
+RUN  GOOS=linux GOARCH=$TARGETARCH go build  -o /go-start $GO_FILE
+CMD [ "/go-start" ]

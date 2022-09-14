@@ -80,6 +80,8 @@ func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobNam
 		"build-arg:USER_INFO=" + "admin:root@",
 		"--opt",
 		"build-arg:GIT_HOST=" + gitHost,
+		"--opt",
+		"build-arg:GO_FILE=" + "/app/cmd/app/main.go",
 		"--local",
 		"context=/workspace",
 		"--local",
