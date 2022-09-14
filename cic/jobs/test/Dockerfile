@@ -1,11 +1,11 @@
 FROM alpine/git AS CLONE_SOURCE
 RUN mkdir /stuff
 WORKDIR /stuff
-RUN git clone https://git.alexstorm.solenopsys.org/alexstorm-hsm-ci
-WORKDIR /stuff/alexstorm-hsm-ci
+RUN git clone https://amdin:root@git.alexstorm.solenopsys.org/alexstorm-hsm-ci
+WORKDIR /stuff/solenopsys-hsm-ci
 
 FROM --platform=$BUILDPLATFORM  golang:1.19-buster
-COPY --from=CLONE_SOURCE /stuff/alexstorm-hsm-ci /app
+COPY --from=CLONE_SOURCE /stuff/solenopsys-hsm-ci /app
 ARG TARGETARCH
 WORKDIR /app
 RUN go mod download

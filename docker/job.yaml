@@ -16,7 +16,7 @@ spec:
             - git
             - clone
             - http://git.alexstorm.solenopsys.org/alexstorm-hsm-ci
-            - /workspace/
+            - /workspace/alexstorm-hsm-ci
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
@@ -35,13 +35,14 @@ spec:
             - build
             - --frontend
             - dockerfile.v0
+            - --opt
+            - platform=linux/amd64,linux/arm64
             - --local
             - context=/workspace
             - --local
-            - dockerfile=./cic/jobs/go_build_x.Dockerfile
-            - --opt platform
-            - linux/amd64,linux/arm64
-            - --output type=image,name=registry.alexstorm.solenopsys.org/alexstorm-hsm-ci,push=true`
+            - dockerfile=/workspace/alexstorm-hsm-ci/cic/jobs/test
+            - --output
+            - type=image,name=registry.alexstorm.solenopsys.org/alexstorm-hsm-ci,push=true
           volumeMounts:
             - name: workspace
               readOnly: true

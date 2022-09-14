@@ -11,11 +11,9 @@ import (
 	clientcmd "k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog/v2"
 	"log"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"strings"
-
 	"os"
 	"path/filepath"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 func getCubeConfig(devMode bool) (*rest.Config, error) {
@@ -41,7 +39,7 @@ func getCubeConfig(devMode bool) (*rest.Config, error) {
 	}
 }
 
-func createKubeConfig() (*kubernetes.Clientset, client.Client) {
+func СreateKubeConfig(devMode bool) (*kubernetes.Clientset, client.Client) {
 
 	config, err := getCubeConfig(devMode)
 	if err != nil {
@@ -57,30 +55,71 @@ func createKubeConfig() (*kubernetes.Clientset, client.Client) {
 	return forConfig, c
 }
 
-func createJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobName string) {
-	println("create job " + gitRepoName + "  " + ciJobName)
+func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobName string, gitHost string, arch string, dockerFileFolder string, pushAddress string) {
 
-	kJobName := gitRepoName + "-" + ciJobName
-	dockerStartCommand := "run job command" //todo
-	jobFromImage := "run job command"       //todo
-
-	jobs := clientset.BatchV1().Jobs("default")
+	const SW_NAMESPACE = "shockwaves"
+	jobs := clientset.BatchV1().Jobs(SW_NAMESPACE)
 	var backOffLimit int32 = 0
 
+	volumeMount := []v1.VolumeMount{
+		{
+			Name:      "workspace",
+			MountPath: "/workspace",
+		},
+	}
+	args := []string{
+		"build",
+		"--frontend",
+		"dockerfile.v0",
+		"--opt",
+		"platform=" + arch,
+		"--local",
+		"context=/workspace",
+		"--local",
+		"dockerfile=" + dockerFileFolder,
+	}
+	if pushAddress != "" {
+		tail := []string{
+			"--output",
+			"type=image,name=" + pushAddress + ",push=true"}
+		args = append(args, tail...)
+	}
 	jobSpec := &batchv1.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      kJobName,
-			Namespace: "ciJobs",
+			Name:      ciJobName,
+			Namespace: SW_NAMESPACE,
 		},
 		Spec: batchv1.JobSpec{
 			Template: v1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Annotations: map[string]string{"container.apparmor.security.beta.kubernetes.io/buildkit": "unconfined"},
+				},
 				Spec: v1.PodSpec{
+					InitContainers: []v1.Container{
+						{
+							Name:         "prepare",
+							Image:        "alpine/git",
+							Command:      []string{"git", "clone", "http://admin:root@" + gitHost + "/" + gitRepoName, "/workspace/" + gitRepoName},
+							VolumeMounts: volumeMount,
+						},
+					},
 					Containers: []v1.Container{
 						{
-							Name:    kJobName,
-							Image:   jobFromImage,
-							Command: strings.Split(dockerStartCommand, " "),
+							Name:    "buildkit",
+							Image:   "moby/buildkit:master-rootless",
+							Command: []string{"buildctl-daemonless.sh"},
+							Env: []v1.EnvVar{{
+								Name:  "BUILDKITD_FLAGS",
+								Value: "--oci-worker-no-process-sandbox",
+							}},
+							Args:         args,
+							VolumeMounts: volumeMount,
 						},
+					},
+					Volumes: []v1.Volume{
+						{Name: "workspace", VolumeSource: v1.VolumeSource{
+							EmptyDir: &v1.EmptyDirVolumeSource{},
+						}},
 					},
 					RestartPolicy: v1.RestartPolicyNever,
 				},
@@ -91,6 +130,7 @@ func createJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobNam
 
 	_, err := jobs.Create(context.TODO(), jobSpec, metav1.CreateOptions{})
 	if err != nil {
+		klog.Error(err)
 		log.Fatalln("Failed to create K8s job.")
 	}
 
