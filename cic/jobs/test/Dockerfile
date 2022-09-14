@@ -6,10 +6,11 @@ RUN mkdir /sources
 RUN git clone https://$USER_INFO$GIT_HOST/$REPO_NAME /sources
 
 FROM --platform=$BUILDPLATFORM  golang:1.19-buster
-COPY --from=CLONE_SOURCE /sources /sources
 ARG TARGETARCH
 ARG GO_MAIN_FILE
+RUN echo "MAIN FILE $GO_MAIN_FILE"
+COPY --from=CLONE_SOURCE /sources /sources
 WORKDIR /sources
 RUN go mod download
-RUN  GOOS=linux GOARCH=$TARGETARCH go build  -o /go-start $GO_MAIN_FILE
+RUN GOOS=linux GOARCH=$TARGETARCH go build  -o /go-start $GO_MAIN_FILE
 CMD [ "/go-start" ]
