@@ -15,5 +15,5 @@ WORKDIR /sources
 RUN go mod download
 ENV GOOS=linux
 ENV GOARCH=$TARGETARCH
-RUN go build -o /go-start /app/cmd/app/main.go
-CMD [ "/go-start" ]
+RUN go build -o /go-binary $GO_MAIN_FILE
+CMD [ "/go-binary" ]
