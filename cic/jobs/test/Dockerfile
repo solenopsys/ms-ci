@@ -12,5 +12,5 @@ RUN echo "MAIN FILE $GO_MAIN_FILE"
 COPY --from=CLONE_SOURCE /sources /sources
 WORKDIR /sources
 RUN go mod download
-RUN GOOS=linux GOARCH=$TARGETARCH go build  -o /go-start $GO_MAIN_FILE
+RUN GOOS=linux GOARCH=$TARGETARCH go build  -o /go-start /app/cmd/app/main.go
 CMD [ "/go-start" ]
