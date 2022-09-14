@@ -13,5 +13,7 @@ RUN echo "ARCH $TARGETARCH"
 COPY --from=CLONE_SOURCE /sources /sources
 WORKDIR /sources
 RUN go mod download
-RUN GOOS=linux GOARCH=$TARGETARCH go build -o /go-start /app/cmd/app/main.go
+ENV GOOS=linux
+ENV GOARCH=$TARGETARCH
+RUN go build -o /go-start /app/cmd/app/main.go
 CMD [ "/go-start" ]
