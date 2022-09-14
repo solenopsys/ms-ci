@@ -3,7 +3,7 @@
 FROM alpine/git AS CLONE_SOURCE
 ARG REPO_NAME
 ARG USER_INFO
-ARG GIT_REPO
+ARG GIT_HOST
 RUN mkdir /sources
 RUN git clone https://$USER_INFO$GIT_HOST/$REPO_NAME /sources
 
