@@ -1,0 +1,13 @@
+{
+  "type": "dockerBuild",
+  "containerArgs": {
+    "SOURCES": "https://admin:root@git.alexstorm.solenopsys.org/solenopsys-hsm-ci",
+    "MAIN_FILE": "/sources/cmd/app/main.go"
+  },
+  "buildConf": {
+    "pull": "git.alexstorm.solenopsys.org/solenopsys-build-ci",
+    "push": "registry.alexstorm.solenopsys.org/solenopsys-hsm-ci",
+    "arch": "linux/amd64,linux/arm64",
+    "dockerFileDir": "cic/jobs/test"
+  }
+}

@@ -82,14 +82,23 @@ func main() {
 
 	list(db)
 	clientSet, c = kube.СreateKubeConfig(devMode)
-	name := "solenopsys-hsm-ci"
+
+	gitRepoName := "solenopsys-hsm-ci"
+	gitHost := "git.alexstorm.solenopsys.org"
+
 	kube.CreateJobFunc(clientSet,
-		name,
-		"ci-build-job4",
-		"git.alexstorm.solenopsys.org",
+		gitRepoName,
+		"ci-build-job7",
+		gitHost,
 		"linux/amd64,linux/arm64",
-		"/workspace/"+name+"/cic/jobs/test",
-		"registry.alexstorm.solenopsys.org/"+name,
+		"/workspace/"+gitRepoName+"/cic/jobs/test",
+		"registry.alexstorm.solenopsys.org/"+gitRepoName,
+		map[string]string{
+			"REPO_NAME":    gitRepoName,
+			"USER_INFO":    "admin:root@",
+			"GIT_HOST":     gitHost,
+			"GO_MAIN_FILE": "/sources/cmd/app/main.go",
+		},
 	)
 	//	template := zmq_connector.HsTemplate{Pf: processingFunction()}
 	//	template.Init()

@@ -1,0 +1,16 @@
+{
+  "type": "dockerBuild",
+  "containerArgs": {
+    "HELM_VERSION": "1.0.1",
+    "HELM_PACKAGE": "solenopsys-hsm-ci"
+  },
+  "buildConf": {
+    "pull": "git.alexstorm.solenopsys.org/solenopsys-build-ci",
+    "dockerFileDir": "cic/jobs/test"
+  }
+}
+
+
+
+
+

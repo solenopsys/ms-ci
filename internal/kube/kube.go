@@ -55,7 +55,7 @@ func СreateKubeConfig(devMode bool) (*kubernetes.Clientset, client.Client) {
 	return forConfig, c
 }
 
-func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobName string, gitHost string, arch string, dockerFileFolder string, pushAddress string) {
+func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobName string, gitHost string, arch string, dockerFileFolder string, pushAddress string, argsVars map[string]string) {
 
 	const SW_NAMESPACE = "shockwaves"
 	jobs := clientset.BatchV1().Jobs(SW_NAMESPACE)
@@ -74,18 +74,16 @@ func CreateJobFunc(clientset *kubernetes.Clientset, gitRepoName string, ciJobNam
 		"dockerfile.v0",
 		"--opt",
 		"platform=" + arch,
-		"--opt",
-		"build-arg:REPO_NAME=" + gitRepoName,
-		"--opt",
-		"build-arg:USER_INFO=" + "admin:root@",
-		"--opt",
-		"build-arg:GIT_HOST=" + gitHost,
-		"--opt",
-		"build-arg:GO_MAIN_FILE=" + "/sources/cmd/app/main.go",
 		"--local",
 		"context=/workspace",
 		"--local",
 		"dockerfile=" + dockerFileFolder,
+	}
+	for key, value := range argsVars {
+		params := []string{
+			"--opt",
+			"build-arg:" + key + "=" + value}
+		args = append(args, params...)
 	}
 	if pushAddress != "" {
 		tail := []string{
