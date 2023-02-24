@@ -1,3 +1,5 @@
+ not working need deep refactoring 
+
 # proto gen
 protoc --proto_path=. --go_out=.  api.proto
 
