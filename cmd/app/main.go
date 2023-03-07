@@ -63,7 +63,8 @@ func main() {
 	devMode := Mode == DEV_MODE
 
 	if devMode {
-		godotenv.Load("configs/local.env")
+		err := godotenv.Load("configs/local.env")
+		CheckError(err)
 	}
 
 	host := os.Getenv("postgres.Host")

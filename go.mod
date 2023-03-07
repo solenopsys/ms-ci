@@ -7,6 +7,7 @@ go 1.19
 require (
 	github.com/go-zeromq/zmq4 v0.15.0
 	github.com/golang-migrate/migrate/v4 v4.15.2
+	github.com/gorilla/websocket v1.4.2
 	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.10.6
 	github.com/pebbe/zmq4 v1.2.9
