@@ -15,7 +15,7 @@ spec:
           command:
             - git
             - clone
-            - http://git.alexstorm.solenopsys.org/alexstorm-hsm-ci
+            - http://git.klogsolenopsys.org/alexstorm-hsm-ci
             - /workspace/alexstorm-hsm-ci
           securityContext:
             runAsUser: 1000
@@ -42,7 +42,7 @@ spec:
             - --local
             - dockerfile=/workspace/alexstorm-hsm-ci/cic/jobs/test
             - --output
-            - type=image,name=registry.alexstorm.solenopsys.org/alexstorm-hsm-ci,push=true
+            - type=image,name=registry.klogsolenopsys.org/alexstorm-hsm-ci,push=true
           volumeMounts:
             - name: workspace
               readOnly: true

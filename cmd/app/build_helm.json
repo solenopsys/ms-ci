@@ -5,7 +5,7 @@
     "HELM_PACKAGE": "solenopsys-hsm-ci"
   },
   "buildConf": {
-    "pull": "git.alexstorm.solenopsys.org/solenopsys-build-ci",
+    "pull": "git.klogsolenopsys.org/solenopsys-build-ci",
     "dockerFileDir": "cic/jobs/test"
   }
 }

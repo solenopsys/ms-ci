@@ -85,7 +85,7 @@ func main() {
 	clientSet, c = kube.СreateKubeConfig(devMode)
 
 	gitRepoName := "solenopsys-hsm-ci"
-	gitHost := "git.alexstorm.solenopsys.org"
+	gitHost := "git.klogsolenopsys.org"
 
 	kube.CreateJobFunc(clientSet,
 		gitRepoName,
@@ -93,7 +93,7 @@ func main() {
 		gitHost,
 		"linux/amd64,linux/arm64",
 		"/workspace/"+gitRepoName+"/cic/jobs/test",
-		"registry.alexstorm.solenopsys.org/"+gitRepoName,
+		"registry.klogsolenopsys.org/"+gitRepoName,
 		map[string]string{
 			"REPO_NAME":    gitRepoName,
 			"USER_INFO":    "admin:root@",
