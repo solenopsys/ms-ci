@@ -2,7 +2,7 @@ module alexstorm-hsm-ci
 
 replace solenopsys.org/alexstorm/zmq_connector v0.0.0 => ./zmq_connector
 
-go 1.20.3
+go 1.20
 
 require (
 	github.com/go-zeromq/zmq4 v0.15.0
