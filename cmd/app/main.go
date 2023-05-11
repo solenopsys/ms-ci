@@ -86,7 +86,7 @@ func main() {
 	clientSet, c = bl_kubernetes_tools.CreateKubeConfig(devMode)
 
 	gitRepoName := "solenopsys-hsm-ci"
-	gitHost := "git.klogsolenopsys.org"
+	gitHost := "git.solenopsys.org"
 
 	kube.CreateJobFunc(clientSet,
 		gitRepoName,
@@ -94,7 +94,7 @@ func main() {
 		gitHost,
 		"linux/amd64,linux/arm64",
 		"/workspace/"+gitRepoName+"/cic/jobs/test",
-		"registry.klogsolenopsys.org/"+gitRepoName,
+		"registry.solenopsys.org/"+gitRepoName,
 		map[string]string{
 			"REPO_NAME":    gitRepoName,
 			"USER_INFO":    "admin:root@",

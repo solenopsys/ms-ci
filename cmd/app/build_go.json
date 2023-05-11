@@ -1,12 +1,12 @@
 {
   "type": "dockerBuild",
   "containerArgs": {
-    "SOURCES": "https://admin:root@git.klogsolenopsys.org/solenopsys-hsm-ci",
+    "SOURCES": "https://admin:root@git.solenopsys.org/solenopsys-hsm-ci",
     "MAIN_FILE": "/sources/cmd/app/main.go"
   },
   "buildConf": {
-    "pull": "git.klogsolenopsys.org/solenopsys-build-ci",
-    "push": "registry.klogsolenopsys.org/solenopsys-hsm-ci",
+    "pull": "git.solenopsys.org/solenopsys-build-ci",
+    "push": "registry.solenopsys.org/solenopsys-hsm-ci",
     "arch": "linux/amd64,linux/arm64",
     "dockerFileDir": "cic/jobs/test"
   }

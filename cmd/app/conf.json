@@ -3,18 +3,18 @@
   "containerArgs": {
     "REPO_NAME":    "solenopsys-hsm-ci",
     "USER_INFO":    "admin:root@",
-    "GIT_HOST":     "git.klogsolenopsys.org",
+    "GIT_HOST":     "git.solenopsys.org",
     "GO_MAIN_FILE": "/sources/cmd/app/main.go"
   },
   "buildConf": {
     "push": {
-      "registry": "registry.klogsolenopsys.org",
+      "registry": "registry.solenopsys.org",
       "name": "solenopsys-hsm-ci"
     },
     "arch": "linux/amd64,linux/arm64",
     "pull": {
       "dockerFileDir": "\"/workspace/\"+gitRepoName+\"/cic/jobs/test\"",
-      "repo": "git.klogsolenopsys.org",
+      "repo": "git.solenopsys.org",
       "name": "\"/workspace/\"+gitRepoName+\"/cic/jobs/test\""
     }
 

@@ -1,11 +1,11 @@
 #!/bin/sh
 
 
-gitRegistry='git.klogsolenopsys.org'
+gitRegistry='git.solenopsys.org'
 gitRepoName='alexstorm-hsm-ci'
 dockerFilePatch='/mnt/c/dev/sources/goprojects/alexstorm-hsm-ci/cic/jobs/go_build_x.Dockerfile'
 buildForArch='linux/amd64,linux/arm64'
-dockerRegistry='registry.klogsolenopsys.org'
+dockerRegistry='registry.solenopsys.org'
 targetImageName='alexstorm-hsm-ci'
 imageVersion='latest'
 
