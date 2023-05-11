@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	bl_kubernetes_tools "github.com/solenopsys/bl-kubernetes-tools"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/klog/v2"
 	"os"
@@ -82,7 +83,7 @@ func main() {
 	CheckError(err)
 
 	list(db)
-	clientSet, c = kube.СreateKubeConfig(devMode)
+	clientSet, c = bl_kubernetes_tools.CreateKubeConfig(devMode)
 
 	gitRepoName := "solenopsys-hsm-ci"
 	gitHost := "git.klogsolenopsys.org"
