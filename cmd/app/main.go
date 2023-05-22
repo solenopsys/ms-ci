@@ -75,7 +75,7 @@ func main() {
 	password := os.Getenv("postgres.Password")
 	// connection string
 	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, "softconverged")
+		host, port, user, password, "Converged")
 
 	// open database
 	db, err := sql.Open("postgres", psqlconn)

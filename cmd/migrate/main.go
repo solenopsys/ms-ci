@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("postgres", "postgres://10.23.92.23:30432/softconverged?sslmode=enable")
+	db, err := sql.Open("postgres", "postgres://10.23.92.23:30432/Converged?sslmode=enable")
 	driver, err := postgres.WithInstance(db, &postgres.Config{})
 	m, err := migrate.NewWithDatabaseInstance(
 		"file:///migrations",
